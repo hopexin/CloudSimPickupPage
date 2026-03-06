@@ -98,14 +98,26 @@
               <label class="block text-sm font-medium text-gray-600 mb-1" for="order-id">訂單編號</label>
               <input type="text" id="order-id" placeholder="例如：CS20260304" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all placeholder-gray-400">
             </div>
-            <div class="mb-6">
+            <div class="mb-4">
               <label class="block text-sm font-medium text-gray-600 mb-1" for="email">收件信箱</label>
               <input type="email" id="email" placeholder="接收 eSIM QR Code 用" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all placeholder-gray-400">
+            </div>
+
+            <div class="mb-6">
+              <label class="block text-sm font-medium text-gray-600 mb-1" for="redeem-captcha-input">驗證碼</label>
+              <div class="flex items-stretch gap-2 mb-2">
+                <div id="redeem-captcha-code" class="flex-1 min-h-[44px] px-4 rounded-xl border border-gray-200 bg-gray-50 text-gray-800 font-mono tracking-[0.25em] text-center flex items-center justify-center select-none"></div>
+                <button type="button" id="btn-refresh-captcha" class="min-h-[44px] px-3 rounded-xl border border-gray-200 bg-white text-gray-600 text-sm font-medium hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200">
+                  重新產生
+                </button>
+              </div>
+              <input type="text" id="redeem-captcha-input" inputmode="text" maxlength="4" autocomplete="off" placeholder="請輸入上方驗證碼" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all placeholder-gray-400">
             </div>
 
             <button type="submit" id="btn-redeem" class="w-full bg-gray-900 hover:bg-black text-white font-medium py-3 rounded-xl transition-colors flex justify-center items-center gap-2 min-h-[48px] disabled:opacity-70 disabled:cursor-not-allowed">
               <span class="btn-text">兌換 / 取卡</span>
             </button>
+            <div id="redeem-inline-message" aria-live="polite" class="hidden-state mt-3 px-3 py-2.5 rounded-lg text-sm leading-relaxed"></div>
           </form>
         </div>
 
@@ -176,11 +188,11 @@
               <div class="px-4 pb-4 pt-1">
                 <p class="text-xs text-gray-500 mb-3">若畫面太小，點擊圖片可放大。</p>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  <button type="button" data-preview-src="assets/tutorial/ios_1.png" data-preview-alt="iPhone eSIM 安裝教學步驟 1" class="block w-full text-left rounded-xl overflow-hidden bg-white border border-gray-200 shadow-sm hover:shadow-md transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200">
-                    <img src="assets/tutorial/ios_1.png" alt="iPhone eSIM 安裝教學步驟 1" loading="lazy" class="w-full h-auto object-contain bg-white">
+                  <button type="button" data-preview-src="雲信安裝圖文/ios安裝1-01.png" data-preview-alt="iPhone eSIM 安裝教學 1" class="block w-full text-left rounded-xl overflow-hidden bg-white border border-gray-200 shadow-sm hover:shadow-md transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200">
+                    <img src="雲信安裝圖文/ios安裝1-01.png" alt="iPhone eSIM 安裝教學 1" loading="lazy" class="w-full h-auto object-contain bg-white">
                   </button>
-                  <button type="button" data-preview-src="assets/tutorial/ios_2.png" data-preview-alt="iPhone eSIM 安裝教學步驟 2" class="block w-full text-left rounded-xl overflow-hidden bg-white border border-gray-200 shadow-sm hover:shadow-md transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200">
-                    <img src="assets/tutorial/ios_2.png" alt="iPhone eSIM 安裝教學步驟 2" loading="lazy" class="w-full h-auto object-contain bg-white">
+                  <button type="button" data-preview-src="雲信安裝圖文/ios安裝2-01.png" data-preview-alt="iPhone eSIM 安裝教學 2" class="block w-full text-left rounded-xl overflow-hidden bg-white border border-gray-200 shadow-sm hover:shadow-md transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200">
+                    <img src="雲信安裝圖文/ios安裝2-01.png" alt="iPhone eSIM 安裝教學 2" loading="lazy" class="w-full h-auto object-contain bg-white">
                   </button>
                 </div>
               </div>
@@ -194,16 +206,42 @@
               <div class="px-4 pb-4 pt-1">
                 <p class="text-xs text-gray-500 mb-3">若畫面太小，點擊圖片可放大。</p>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  <button type="button" data-preview-src="assets/tutorial/android_1.png" data-preview-alt="Android eSIM 安裝教學步驟 1" class="block w-full text-left rounded-xl overflow-hidden bg-white border border-gray-200 shadow-sm hover:shadow-md transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200">
-                    <img src="assets/tutorial/android_1.png" alt="Android eSIM 安裝教學步驟 1" loading="lazy" class="w-full h-auto object-contain bg-white">
+                  <button type="button" data-preview-src="雲信安裝圖文/安卓安裝1-01.png" data-preview-alt="Android eSIM 安裝教學 1" class="block w-full text-left rounded-xl overflow-hidden bg-white border border-gray-200 shadow-sm hover:shadow-md transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200">
+                    <img src="雲信安裝圖文/安卓安裝1-01.png" alt="Android eSIM 安裝教學 1" loading="lazy" class="w-full h-auto object-contain bg-white">
                   </button>
-                  <button type="button" data-preview-src="assets/tutorial/android_2.png" data-preview-alt="Android eSIM 安裝教學步驟 2" class="block w-full text-left rounded-xl overflow-hidden bg-white border border-gray-200 shadow-sm hover:shadow-md transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200">
-                    <img src="assets/tutorial/android_2.png" alt="Android eSIM 安裝教學步驟 2" loading="lazy" class="w-full h-auto object-contain bg-white">
+                  <button type="button" data-preview-src="雲信安裝圖文/安卓安裝2-01.png" data-preview-alt="Android eSIM 安裝教學 2" class="block w-full text-left rounded-xl overflow-hidden bg-white border border-gray-200 shadow-sm hover:shadow-md transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200">
+                    <img src="雲信安裝圖文/安卓安裝2-01.png" alt="Android eSIM 安裝教學 2" loading="lazy" class="w-full h-auto object-contain bg-white">
                   </button>
                 </div>
               </div>
             </details>
           </div>
+        </div>
+      </section>
+
+      <section id="section-terms" class="mb-6 md:mb-8">
+        <div class="bg-white border border-gray-100 rounded-2xl p-5 md:p-6 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)]">
+          <h2 class="text-lg md:text-xl font-bold text-gray-900">使用說明與條款</h2>
+          <p class="text-sm text-gray-500 mt-1 mb-4">下單前請務必閱讀</p>
+
+          <details class="group bg-gray-50 border border-gray-100 rounded-xl overflow-hidden">
+            <summary class="list-none min-h-[48px] px-4 py-3 flex items-center justify-between cursor-pointer select-none">
+              <span class="font-semibold text-gray-800">查看完整條款內容</span>
+              <svg class="w-5 h-5 text-gray-500 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </summary>
+            <div class="px-4 pb-4 pt-1">
+              <ul class="space-y-3 text-sm text-gray-700 leading-relaxed">
+                <li>• eSIM 尚未啟用前，可保留 <strong>1 年有效期限</strong>（自購買日起算）。</li>
+                <li>• 以電子郵件內容中的 <strong>最後有效日期</strong> 為準；超過有效期限 <strong>不予退換貨</strong>。</li>
+                <li>• 同筆訂單購買多組 eSIM，將一併寄送至同一電子郵件；若需寄送至不同信箱，請分開下單。</li>
+                <li>• eSIM 下單後超過 7 天，恕不受理退換貨（瑕疵或無法使用等問題除外），包含因個人因素提出的退款或換貨。</li>
+                <li>• 若 eSIM 因異常或不可排除原因導致無法正常使用，本公司僅提供售後處理或退款，恕不提供其他賠償或補償。</li>
+                <li>• 建議於出發當天在台灣預先掃描 QR Code，或抵達後連上機場 Wi-Fi 再掃描使用；eSIM 需在有網路的情況下操作。</li>
+                <li>• 請依目的地國家或地區、天數與流量下單；各方案適用國家不同，請務必先確認方案內容與覆蓋範圍。</li>
+                <li>• 僅支援可使用 eSIM 的手機裝置；若因未確認裝置支援而導致無法使用，本公司恕不負退費責任。</li>
+              </ul>
+            </div>
+          </details>
         </div>
       </section>
     </main>
@@ -252,6 +290,8 @@
 
   <script>
     const CAROUSEL_INTERVAL_MS = 5000;
+    const REDEEM_COOLDOWN_SECONDS = 60;
+    const REDEEM_COOLDOWN_STORAGE_KEY = "lastRedeemAttemptAt";
     const SHOPEE_URL = "https://shopee.tw/cloudsim#product_list";
     const TAB_ACTIVE_CLASS = "px-4 sm:px-5 py-2 rounded-md bg-white shadow-sm text-blue-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200";
     const TAB_INACTIVE_CLASS = "px-4 sm:px-5 py-2 rounded-md text-gray-600 hover:text-gray-900 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200";
@@ -306,13 +346,6 @@
         subtitle: "LINE / 微信客服與常見問題",
         cta: "聯繫客服",
         gradient: "from-emerald-600 via-teal-500 to-cyan-500"
-      },
-      {
-        type: "guide",
-        title: "eSIM 安裝教學",
-        subtitle: "iPhone / Android 一分鐘搞定",
-        cta: "查看步驟",
-        gradient: "from-indigo-600 via-blue-600 to-sky-500"
       }
     ];
 
@@ -325,6 +358,10 @@
     let promoStartY = 0;
     let promoDragged = false;
     let promoSuppressClickUntil = 0;
+    let redeemCooldownSecondsLeft = 0;
+    let redeemCooldownTimer = null;
+    let redeemIsLoading = false;
+    let redeemCaptchaValue = "";
     let inquiryRefreshTimer = null;
     let currentInquiryICCID = "";
 
@@ -428,6 +465,123 @@
       syncBodyScrollLock();
     }
 
+    function setRedeemMessage(type, text, reason = "general") {
+      const box = document.getElementById("redeem-inline-message");
+      if (!box) return;
+      const base = "mt-3 px-3 py-2.5 rounded-lg text-sm leading-relaxed";
+      const toneClass = type === "error"
+        ? "bg-red-50 text-red-700 border border-red-200"
+        : type === "success"
+          ? "bg-green-50 text-green-700 border border-green-200"
+          : "bg-blue-50 text-blue-700 border border-blue-200";
+      box.className = `${base} ${toneClass}`;
+      box.textContent = text;
+      box.dataset.reason = reason;
+      box.classList.remove("hidden-state");
+    }
+
+    function clearRedeemMessage() {
+      const box = document.getElementById("redeem-inline-message");
+      if (!box) return;
+      box.classList.add("hidden-state");
+      box.textContent = "";
+      box.dataset.reason = "";
+    }
+
+    function generateRedeemCaptcha() {
+      const codeBox = document.getElementById("redeem-captcha-code");
+      const input = document.getElementById("redeem-captcha-input");
+      if (!codeBox) return;
+      const chars = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
+      let code = "";
+      for (let i = 0; i < 4; i += 1) {
+        code += chars[Math.floor(Math.random() * chars.length)];
+      }
+      redeemCaptchaValue = code;
+      codeBox.textContent = code;
+      if (input) input.value = "";
+    }
+
+    function getRedeemRemainingSeconds() {
+      try {
+        const raw = localStorage.getItem(REDEEM_COOLDOWN_STORAGE_KEY);
+        const last = raw ? Number(raw) : 0;
+        if (!last || Number.isNaN(last)) return 0;
+        const elapsed = Math.floor((Date.now() - last) / 1000);
+        return Math.max(0, REDEEM_COOLDOWN_SECONDS - elapsed);
+      } catch (error) {
+        return 0;
+      }
+    }
+
+    function applyRedeemButtonState() {
+      const btn = document.getElementById("btn-redeem");
+      if (!btn) return;
+      btn.disabled = redeemIsLoading || redeemCooldownSecondsLeft > 0;
+    }
+
+    function updateRedeemCooldownMessage() {
+      if (redeemCooldownSecondsLeft > 0) {
+        setRedeemMessage("info", `請於 1 分鐘後再試，剩餘 ${redeemCooldownSecondsLeft} 秒可再試`, "cooldown");
+      } else {
+        const box = document.getElementById("redeem-inline-message");
+        if (box && box.dataset.reason === "cooldown") {
+          setRedeemMessage("success", "已可再次嘗試取卡。", "ready");
+        }
+      }
+    }
+
+    function stopRedeemCooldownTimer() {
+      if (redeemCooldownTimer) {
+        clearInterval(redeemCooldownTimer);
+        redeemCooldownTimer = null;
+      }
+    }
+
+    function startRedeemCooldown(useStoredTimestamp = false) {
+      try {
+        if (!useStoredTimestamp) {
+          localStorage.setItem(REDEEM_COOLDOWN_STORAGE_KEY, String(Date.now()));
+        }
+      } catch (error) {
+      }
+
+      stopRedeemCooldownTimer();
+      redeemCooldownSecondsLeft = getRedeemRemainingSeconds();
+      updateRedeemCooldownMessage();
+      applyRedeemButtonState();
+
+      if (redeemCooldownSecondsLeft <= 0) return;
+      redeemCooldownTimer = setInterval(() => {
+        redeemCooldownSecondsLeft = getRedeemRemainingSeconds();
+        updateRedeemCooldownMessage();
+        applyRedeemButtonState();
+        if (redeemCooldownSecondsLeft <= 0) {
+          stopRedeemCooldownTimer();
+        }
+      }, 1000);
+    }
+
+    function initializeRedeemFormState() {
+      generateRedeemCaptcha();
+      const refreshBtn = document.getElementById("btn-refresh-captcha");
+      if (refreshBtn) {
+        refreshBtn.addEventListener("click", () => {
+          generateRedeemCaptcha();
+          const box = document.getElementById("redeem-inline-message");
+          if (box && box.dataset.reason === "error") {
+            clearRedeemMessage();
+          }
+        });
+      }
+      redeemCooldownSecondsLeft = getRedeemRemainingSeconds();
+      if (redeemCooldownSecondsLeft > 0) {
+        startRedeemCooldown(true);
+      } else {
+        applyRedeemButtonState();
+      }
+    }
+
     function renderPromoCarousel() {
       const track = document.getElementById("promo-track");
       const dots = document.getElementById("promo-dots");
@@ -492,6 +646,10 @@
       const nextBtn = document.getElementById("promo-next");
       if (prevBtn) prevBtn.addEventListener("click", () => goToPromoSlide(promoIndex - 1, true));
       if (nextBtn) nextBtn.addEventListener("click", () => goToPromoSlide(promoIndex + 1, true));
+      const hasMultipleSlides = promoSlides.length > 1;
+      if (prevBtn) prevBtn.classList.toggle("hidden", !hasMultipleSlides);
+      if (nextBtn) nextBtn.classList.toggle("hidden", !hasMultipleSlides);
+      dots.classList.toggle("hidden", !hasMultipleSlides);
 
       const viewport = document.getElementById("promo-viewport");
       if (viewport) {
@@ -548,7 +706,11 @@
       });
 
       goToPromoSlide(0, false);
-      startPromoAutoplay();
+      if (hasMultipleSlides) {
+        startPromoAutoplay();
+      } else {
+        stopPromoAutoplay();
+      }
     }
 
     function goToPromoSlide(nextIndex, userInteracted) {
@@ -626,23 +788,42 @@
     function validateRedeemForm() {
       const orderId = document.getElementById("order-id");
       const email = document.getElementById("email");
+      const captchaInput = document.getElementById("redeem-captcha-input");
       const emailValue = email.value.trim();
-      orderId.setCustomValidity(orderId.value.trim() ? "" : "請輸入訂單編號");
+      const orderIdValue = orderId.value.trim();
+      const captchaValue = captchaInput ? captchaInput.value.trim().toUpperCase() : "";
 
-      if (!orderId.reportValidity()) return false;
+      if (!orderIdValue) {
+        setRedeemMessage("error", "請輸入訂單編號", "error");
+        orderId.focus();
+        return false;
+      }
 
       if (!emailValue) {
-        email.setCustomValidity("請輸入收件信箱");
-        return email.reportValidity();
+        setRedeemMessage("error", "請輸入收件信箱", "error");
+        email.focus();
+        return false;
       }
 
-      email.setCustomValidity("");
-      if (email.validity.typeMismatch) {
-        email.setCustomValidity("信箱格式錯誤，請輸入有效的收件信箱");
-        return email.reportValidity();
+      if (!email.checkValidity()) {
+        setRedeemMessage("error", "信箱格式錯誤，請輸入有效的收件信箱", "error");
+        email.focus();
+        return false;
       }
 
-      email.setCustomValidity("");
+      if (!captchaValue) {
+        setRedeemMessage("error", "請輸入驗證碼", "error");
+        if (captchaInput) captchaInput.focus();
+        return false;
+      }
+
+      if (captchaValue !== redeemCaptchaValue) {
+        setRedeemMessage("error", "驗證碼錯誤，請重新輸入", "error");
+        generateRedeemCaptcha();
+        if (captchaInput) captchaInput.focus();
+        return false;
+      }
+
       return true;
     }
 
@@ -840,16 +1021,30 @@
 
     function handleRedeem(e) {
       e.preventDefault();
+      if (redeemCooldownSecondsLeft > 0) {
+        updateRedeemCooldownMessage();
+        applyRedeemButtonState();
+        return;
+      }
+
       if (!validateRedeemForm()) return;
 
       const btn = document.getElementById("btn-redeem");
       const resultArea = document.getElementById("result-redeem");
+      clearRedeemMessage();
+
+      redeemIsLoading = true;
+      applyRedeemButtonState();
       setButtonLoading(btn, true, "處理中...", "#111827");
+      startRedeemCooldown(false);
       resultArea.classList.add("hidden-state");
       resultArea.classList.remove("fade-enter-active");
 
       setTimeout(() => {
+        redeemIsLoading = false;
         setButtonLoading(btn, false, "");
+        applyRedeemButtonState();
+        generateRedeemCaptcha();
         resultArea.classList.remove("hidden-state");
         void resultArea.offsetWidth;
         resultArea.classList.add("fade-enter-active");
@@ -902,6 +1097,7 @@
       });
     }
 
+    initializeRedeemFormState();
     renderPromoCarousel();
   </script>
 </body>
