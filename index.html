@@ -40,9 +40,14 @@
         </div>
         <h1 class="text-xl md:text-2xl font-bold tracking-wide text-gray-900">雲信漫遊</h1>
       </div>
-      <div class="bg-gray-100 p-1 rounded-lg flex text-sm font-medium border border-gray-200/80">
-        <button id="tab-inquiry" class="px-4 sm:px-5 py-2 rounded-md bg-white shadow-sm text-blue-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200" onclick="switchTab('inquiry')">查詢</button>
-        <button id="tab-redeem" class="px-4 sm:px-5 py-2 rounded-md text-gray-600 hover:text-gray-900 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200" onclick="switchTab('redeem')">取卡</button>
+      <div class="flex flex-col items-end gap-2">
+        <a href="https://shopee.tw/cloudsim#product_list" target="_blank" rel="noopener" class="inline-flex items-center px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 border border-blue-100 text-xs sm:text-sm font-medium hover:bg-blue-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200">
+          前往蝦皮賣場
+        </a>
+        <div class="bg-gray-100 p-1 rounded-lg flex text-sm font-medium border border-gray-200/80">
+          <button id="tab-inquiry" class="px-4 sm:px-5 py-2 rounded-md bg-white shadow-sm text-blue-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200" onclick="switchTab('inquiry')">查詢</button>
+          <button id="tab-redeem" class="px-4 sm:px-5 py-2 rounded-md text-gray-600 hover:text-gray-900 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200" onclick="switchTab('redeem')">取卡</button>
+        </div>
       </div>
     </header>
 
@@ -159,7 +164,62 @@
           </div>
         </div>
       </section>
+
+      <section id="section-tutorial" class="mb-6 md:mb-8">
+        <div class="bg-white border border-gray-100 rounded-2xl p-5 md:p-6 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)]">
+          <div class="mb-4">
+            <h2 class="text-lg md:text-xl font-bold text-gray-900">eSIM 安裝教學</h2>
+            <p class="text-sm text-gray-500 mt-1">依照您的手機系統選擇教學（iPhone / Android）</p>
+          </div>
+
+          <div class="space-y-3">
+            <details class="group bg-gray-50 border border-gray-100 rounded-xl overflow-hidden" open>
+              <summary class="list-none min-h-[48px] px-4 py-3 flex items-center justify-between cursor-pointer select-none">
+                <span class="font-semibold text-gray-800">iPhone（iOS）教學</span>
+                <svg class="w-5 h-5 text-gray-500 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+              </summary>
+              <div class="px-4 pb-4 pt-1">
+                <p class="text-xs text-gray-500 mb-3">若畫面太小，點擊圖片可放大。</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <button type="button" data-preview-src="assets/tutorial/ios_1.png" data-preview-alt="iPhone eSIM 安裝教學步驟 1" class="block w-full text-left rounded-xl overflow-hidden bg-white border border-gray-200 shadow-sm hover:shadow-md transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200">
+                    <img src="assets/tutorial/ios_1.png" alt="iPhone eSIM 安裝教學步驟 1" loading="lazy" class="w-full h-auto object-contain bg-white">
+                  </button>
+                  <button type="button" data-preview-src="assets/tutorial/ios_2.png" data-preview-alt="iPhone eSIM 安裝教學步驟 2" class="block w-full text-left rounded-xl overflow-hidden bg-white border border-gray-200 shadow-sm hover:shadow-md transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200">
+                    <img src="assets/tutorial/ios_2.png" alt="iPhone eSIM 安裝教學步驟 2" loading="lazy" class="w-full h-auto object-contain bg-white">
+                  </button>
+                </div>
+              </div>
+            </details>
+
+            <details class="group bg-gray-50 border border-gray-100 rounded-xl overflow-hidden">
+              <summary class="list-none min-h-[48px] px-4 py-3 flex items-center justify-between cursor-pointer select-none">
+                <span class="font-semibold text-gray-800">Android 教學</span>
+                <svg class="w-5 h-5 text-gray-500 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+              </summary>
+              <div class="px-4 pb-4 pt-1">
+                <p class="text-xs text-gray-500 mb-3">若畫面太小，點擊圖片可放大。</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <button type="button" data-preview-src="assets/tutorial/android_1.png" data-preview-alt="Android eSIM 安裝教學步驟 1" class="block w-full text-left rounded-xl overflow-hidden bg-white border border-gray-200 shadow-sm hover:shadow-md transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200">
+                    <img src="assets/tutorial/android_1.png" alt="Android eSIM 安裝教學步驟 1" loading="lazy" class="w-full h-auto object-contain bg-white">
+                  </button>
+                  <button type="button" data-preview-src="assets/tutorial/android_2.png" data-preview-alt="Android eSIM 安裝教學步驟 2" class="block w-full text-left rounded-xl overflow-hidden bg-white border border-gray-200 shadow-sm hover:shadow-md transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200">
+                    <img src="assets/tutorial/android_2.png" alt="Android eSIM 安裝教學步驟 2" loading="lazy" class="w-full h-auto object-contain bg-white">
+                  </button>
+                </div>
+              </div>
+            </details>
+          </div>
+        </div>
+      </section>
     </main>
+
+    <footer class="px-4 sm:px-6 md:px-8 pb-6 md:pb-8">
+      <div class="text-center border-t border-gray-100 pt-4">
+        <a href="https://shopee.tw/cloudsim#product_list" target="_blank" rel="noopener" class="text-sm text-blue-600 hover:text-blue-700 font-medium">
+          蝦皮商品列表 →
+        </a>
+      </div>
+    </footer>
   </div>
 
   <div id="support-modal" class="hidden-state fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -181,6 +241,18 @@
             <img src="weixincloudsim.jpeg" alt="微信客服 QR Code" class="w-full h-28 object-contain">
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tutorial-lightbox" class="hidden-state fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-black/70" data-close-tutorial="true"></div>
+    <div class="relative z-10 w-full max-w-5xl">
+      <button type="button" aria-label="關閉教學大圖" data-close-tutorial="true" class="absolute -top-11 right-0 w-9 h-9 rounded-full bg-white/90 text-gray-700 hover:bg-white">
+        ✕
+      </button>
+      <div class="bg-white rounded-2xl border border-gray-100 shadow-xl p-2 md:p-3">
+        <img id="tutorial-lightbox-image" src="" alt="eSIM 安裝教學大圖" class="w-full max-h-[80vh] object-contain rounded-xl bg-white">
       </div>
     </div>
   </div>
@@ -291,18 +363,47 @@
       }
     }
 
+    function syncBodyScrollLock() {
+      const supportOpen = !document.getElementById("support-modal").classList.contains("hidden-state");
+      const tutorialOpen = !document.getElementById("tutorial-lightbox").classList.contains("hidden-state");
+      if (supportOpen || tutorialOpen) {
+        document.body.classList.add("overflow-hidden");
+      } else {
+        document.body.classList.remove("overflow-hidden");
+      }
+    }
+
     function openSupportModal() {
       const modal = document.getElementById("support-modal");
       if (!modal) return;
       modal.classList.remove("hidden-state");
-      document.body.classList.add("overflow-hidden");
+      syncBodyScrollLock();
     }
 
     function closeSupportModal() {
       const modal = document.getElementById("support-modal");
       if (!modal) return;
       modal.classList.add("hidden-state");
-      document.body.classList.remove("overflow-hidden");
+      syncBodyScrollLock();
+    }
+
+    function openTutorialLightbox(src, alt) {
+      const modal = document.getElementById("tutorial-lightbox");
+      const image = document.getElementById("tutorial-lightbox-image");
+      if (!modal || !image) return;
+      image.src = src;
+      image.alt = alt || "eSIM 安裝教學大圖";
+      modal.classList.remove("hidden-state");
+      syncBodyScrollLock();
+    }
+
+    function closeTutorialLightbox() {
+      const modal = document.getElementById("tutorial-lightbox");
+      const image = document.getElementById("tutorial-lightbox-image");
+      if (!modal || !image) return;
+      modal.classList.add("hidden-state");
+      image.src = "";
+      syncBodyScrollLock();
     }
 
     function renderPromoCarousel() {
@@ -708,16 +809,26 @@
     }
 
     document.addEventListener("click", (e) => {
+      const previewTrigger = e.target.closest("[data-preview-src]");
+      if (previewTrigger) {
+        openTutorialLightbox(previewTrigger.dataset.previewSrc, previewTrigger.dataset.previewAlt);
+      }
       if (e.target.closest("[data-open-support='true']")) {
         openSupportModal();
       }
       if (e.target.closest("[data-close-support='true']")) {
         closeSupportModal();
       }
+      if (e.target.closest("[data-close-tutorial='true']")) {
+        closeTutorialLightbox();
+      }
     });
 
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") closeSupportModal();
+      if (e.key === "Escape") {
+        closeSupportModal();
+        closeTutorialLightbox();
+      }
     });
 
     if (typeof prefersReducedMotionQuery.addEventListener === "function") {
