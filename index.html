@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>雲信漫遊 CloudSim - eSIM 服務</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .fade-enter { opacity: 0; transform: translateY(10px); transition: all 0.3s ease; }
+    .fade-enter-active { opacity: 1; transform: translateY(0); }
+    .hidden-state { display: none !important; }
+
+    .promo-track {
+      transition: transform 0.35s ease;
+      will-change: transform;
+    }
+
+    .loader {
+      border: 3px solid #f3f4f6;
+      border-top: 3px solid #3b82f6;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    @media (prefers-reduced-motion: reduce) {
+      .promo-track { transition: none; }
+    }
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans antialiased selection:bg-blue-100">
+  <div class="max-w-md md:max-w-2xl mx-auto min-h-screen bg-white shadow-lg md:shadow-xl relative overflow-hidden sm:my-6 sm:rounded-2xl sm:min-h-0">
+    <header class="flex items-center justify-between px-4 sm:px-6 md:px-8 py-5 md:py-6 border-b border-gray-100 bg-white sticky top-0 z-20">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full overflow-hidden ring-1 ring-gray-200 bg-white shrink-0">
+          <img src="logocloud.jpeg" alt="雲信漫遊 CloudSim" class="w-full h-full object-cover">
+        </div>
+        <h1 class="text-xl md:text-2xl font-bold tracking-wide text-gray-900">雲信漫遊</h1>
+      </div>
+      <div class="bg-gray-100 p-1 rounded-lg flex text-sm font-medium border border-gray-200/80">
+        <button id="tab-inquiry" class="px-4 sm:px-5 py-2 rounded-md bg-white shadow-sm text-blue-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200" onclick="switchTab('inquiry')">查詢</button>
+        <button id="tab-redeem" class="px-4 sm:px-5 py-2 rounded-md text-gray-600 hover:text-gray-900 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200" onclick="switchTab('redeem')">取卡</button>
+      </div>
+    </header>
+
+    <main class="p-4 sm:p-6 md:p-8">
+      <section id="section-inquiry" class="fade-enter fade-enter-active">
+        <section aria-label="最新活動" class="mb-6 md:mb-7">
+          <div id="promo-carousel-wrap" class="relative overflow-visible">
+            <div id="promo-carousel" class="group bg-white border border-gray-100 rounded-2xl shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)] relative">
+              <div id="promo-viewport" class="overflow-hidden rounded-2xl">
+                <div id="promo-track" class="promo-track flex"></div>
+              </div>
+              <div id="promo-dots" class="absolute bottom-2.5 md:bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-10"></div>
+            </div>
+
+            <button id="promo-prev" type="button" aria-label="上一張宣傳海報" class="hidden md:flex absolute -left-4 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full bg-white/70 backdrop-blur-md text-gray-700 items-center justify-center border border-white/40 shadow-md opacity-70 hover:opacity-100 hover:bg-white/90 hover:shadow-lg active:scale-95 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/40">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M15 18l-6-6 6-6"></path></svg>
+            </button>
+            <button id="promo-next" type="button" aria-label="下一張宣傳海報" class="hidden md:flex absolute -right-4 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full bg-white/70 backdrop-blur-md text-gray-700 items-center justify-center border border-white/40 shadow-md opacity-70 hover:opacity-100 hover:bg-white/90 hover:shadow-lg active:scale-95 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/40">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 6l6 6-6 6"></path></svg>
+            </button>
+          </div>
+        </section>
+
+        <div class="bg-white border border-gray-100 rounded-2xl p-5 md:p-6 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)] mb-6 md:mb-7">
+          <h2 class="text-lg md:text-xl font-bold mb-4 flex items-center gap-2">
+            <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            流量與效期查詢
+          </h2>
+          <form id="form-inquiry" novalidate onsubmit="handleInquiry(event)">
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-600 mb-1" for="iccid">卡號 (ICCID)</label>
+              <input type="text" id="iccid" inputmode="numeric" maxlength="20" autocomplete="off" placeholder="請輸入 19 或 20 碼卡號" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all placeholder-gray-400">
+            </div>
+
+            <button type="submit" id="btn-inquiry" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-xl transition-colors flex justify-center items-center gap-2 min-h-[48px] disabled:opacity-70 disabled:cursor-not-allowed">
+              <span class="btn-text">立即查詢</span>
+            </button>
+            <p class="text-xs text-center text-gray-400 mt-3">請輸入卡號以查詢剩餘天數與流量</p>
+          </form>
+        </div>
+
+        <div id="result-inquiry" class="hidden-state fade-enter"></div>
+      </section>
+
+      <section id="section-redeem" class="hidden-state fade-enter">
+        <div class="bg-white border border-gray-100 rounded-2xl p-5 md:p-6 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)] mb-6 md:mb-7">
+          <h2 class="text-lg md:text-xl font-bold mb-4 flex items-center gap-2">
+            <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+            eSIM 兌換取卡
+          </h2>
+          <form id="form-redeem" novalidate onsubmit="handleRedeem(event)">
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-600 mb-1" for="order-id">訂單編號</label>
+              <input type="text" id="order-id" placeholder="例如：CS20260304" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all placeholder-gray-400">
+            </div>
+            <div class="mb-6">
+              <label class="block text-sm font-medium text-gray-600 mb-1" for="email">收件信箱</label>
+              <input type="email" id="email" placeholder="接收 eSIM QR Code 用" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all placeholder-gray-400">
+            </div>
+
+            <button type="submit" id="btn-redeem" class="w-full bg-gray-900 hover:bg-black text-white font-medium py-3 rounded-xl transition-colors flex justify-center items-center gap-2 min-h-[48px] disabled:opacity-70 disabled:cursor-not-allowed">
+              <span class="btn-text">兌換 / 取卡</span>
+            </button>
+          </form>
+        </div>
+
+        <div id="result-redeem" class="hidden-state fade-enter">
+          <div class="bg-white border-2 border-green-100 rounded-2xl overflow-hidden shadow-sm">
+            <div class="bg-green-50 text-green-700 py-2 text-center text-sm font-bold border-b border-green-100 flex justify-center items-center gap-2">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+              兌換成功
+            </div>
+            <div class="p-6 flex flex-col items-center text-center">
+              <h3 class="font-bold text-gray-900 mb-1">日本 7 天｜每日 2GB</h3>
+              <p class="text-sm text-gray-500 mb-5">有效至 2026/03/12</p>
+
+              <div class="p-3 bg-white border border-gray-200 rounded-xl shadow-sm mb-5 relative">
+                <div class="w-40 h-40 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI2ZmZiIvPjxwYXRoIGQ9Ik0xMCAxMGgzMHYzMEgxMHptMTAgMTBoMTB2MTBIMjB6bTQwIDBoMzB2MzBINTB6bTEwIDEwaDEwdjEwSDYwem0tNTAgNDBoMzB2MzBIMTB6bTEwIDEwaDEwdjEwSDIwem0zMCAwaDEwdjEwaC0xMHptMjAtMjBoMTB2MTBoLTEwem0tMTAgMjBoMTB2MTBoLTEwem0xMCAxMGgxMHYxMGgtMTB6bTIwLTMwaDEwdjEwaC0xMHptLTEwIDQwaDEwdjEwaC0xMHptLTIwLTIwaDEwdjEwaC0xMHoiIGZpbGw9IiMwMDAiLz48L3N2Zz4=')] bg-cover bg-center mix-blend-multiply opacity-80"></div>
+                <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <div class="bg-white p-1 rounded-md shadow">
+                    <div class="w-6 h-6 bg-blue-500 rounded text-xs text-white flex items-center justify-center">☁️</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="w-full space-y-2 text-left bg-gray-50 p-3 rounded-lg border border-gray-100">
+                <p class="text-xs text-gray-600 flex items-start gap-1"><span class="text-blue-500">●</span> 請於 30 天內完成兌換與安裝，逾期可能失效。</p>
+                <p class="text-xs text-gray-600 flex items-start gap-1"><span class="text-blue-500">●</span> 兌換前請務必確認您的手機機型支援 eSIM 功能。</p>
+                <p class="text-xs text-gray-600 flex items-start gap-1"><span class="text-blue-500">●</span> 安裝時請確認網路連線穩定。</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4 bg-white border border-gray-100 rounded-2xl p-4 md:p-5 shadow-sm">
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="font-bold text-gray-900">客服支援</h3>
+              <button type="button" data-open-support="true" class="text-xs text-blue-600 hover:text-blue-700 font-medium">聯繫客服</button>
+            </div>
+            <p class="text-xs text-gray-500 mb-4">掃碼加入客服（服務時間 10:00–22:00）</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div class="bg-gray-50 border border-gray-100 rounded-xl p-3 text-center">
+                <p class="text-sm font-semibold text-gray-700 mb-2">LINE 客服</p>
+                <div class="bg-white border border-gray-200 rounded-lg p-2">
+                  <img src="linecloudsim.jpeg" alt="LINE 客服 QR Code" class="w-full h-36 object-contain">
+                </div>
+              </div>
+              <div class="bg-gray-50 border border-gray-100 rounded-xl p-3 text-center">
+                <p class="text-sm font-semibold text-gray-700 mb-2">微信客服</p>
+                <div class="bg-white border border-gray-200 rounded-lg p-2">
+                  <img src="weixincloudsim.jpeg" alt="微信客服 QR Code" class="w-full h-36 object-contain">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="support-modal" class="hidden-state fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-black/50" data-close-support="true"></div>
+    <div class="relative z-10 w-full max-w-md bg-white rounded-2xl shadow-xl border border-gray-100 p-5">
+      <button type="button" data-close-support="true" aria-label="關閉客服視窗" class="absolute right-3 top-3 w-8 h-8 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200">✕</button>
+      <h3 class="text-lg font-bold text-gray-900 mb-1">聯繫客服</h3>
+      <p class="text-sm text-gray-500 mb-4">掃碼加入客服（服務時間 10:00–22:00）</p>
+      <div class="grid grid-cols-2 gap-3">
+        <div class="bg-gray-50 border border-gray-100 rounded-xl p-2 text-center">
+          <p class="text-xs font-semibold text-gray-700 mb-2">LINE</p>
+          <div class="bg-white border border-gray-200 rounded-lg p-2">
+            <img src="linecloudsim.jpeg" alt="LINE 客服 QR Code" class="w-full h-28 object-contain">
+          </div>
+        </div>
+        <div class="bg-gray-50 border border-gray-100 rounded-xl p-2 text-center">
+          <p class="text-xs font-semibold text-gray-700 mb-2">微信</p>
+          <div class="bg-white border border-gray-200 rounded-lg p-2">
+            <img src="weixincloudsim.jpeg" alt="微信客服 QR Code" class="w-full h-28 object-contain">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const CAROUSEL_INTERVAL_MS = 5000;
+    const TAB_ACTIVE_CLASS = "px-4 sm:px-5 py-2 rounded-md bg-white shadow-sm text-blue-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200";
+    const TAB_INACTIVE_CLASS = "px-4 sm:px-5 py-2 rounded-md text-gray-600 hover:text-gray-900 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200";
+    const prefersReducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    const INQUIRY_PLAN_MAP = {
+      "8985200000000000001": {
+        type: "daily_limit",
+        planName: "日本 7 天｜每日 1GB",
+        dailyQuotaGb: 1,
+        todayRemainingGb: 0.4,
+        expiryAt: "2026-03-09T23:59:59+08:00"
+      },
+      "8985200000000000002": {
+        type: "daily_limit",
+        planName: "日本 7 天｜每日 2GB",
+        dailyQuotaGb: 2,
+        todayRemainingGb: 0.9,
+        expiryAt: "2026-03-10T23:59:59+08:00"
+      },
+      "8985200000000000003": {
+        type: "daily_limit",
+        planName: "日本 7 天｜每日 3GB",
+        dailyQuotaGb: 3,
+        todayRemainingGb: 1.6,
+        expiryAt: "2026-03-11T23:59:59+08:00"
+      },
+      "8985200000000000004": {
+        type: "daily_unlimited",
+        planName: "日本 7 天｜每日吃到飽",
+        expiryAt: "2026-03-08T23:59:59+08:00"
+      },
+      "89852000000000000005": {
+        type: "total",
+        planName: "日本 7 天｜總量 5GB",
+        totalGb: 5,
+        remainingGb: 1.2,
+        expiryAt: "2026-03-07T23:59:59+08:00"
+      }
+    };
+
+    const promoSlides = [
+      {
+        type: "image",
+        image: "band1.jpg",
+        alt: "好評返券活動海報",
+        cta: "了解詳情"
+      },
+      {
+        type: "support",
+        title: "客服支援",
+        subtitle: "LINE / 微信客服與常見問題",
+        cta: "聯繫客服",
+        gradient: "from-emerald-600 via-teal-500 to-cyan-500"
+      },
+      {
+        type: "guide",
+        title: "eSIM 安裝教學",
+        subtitle: "iPhone / Android 一分鐘搞定",
+        cta: "查看步驟",
+        gradient: "from-indigo-600 via-blue-600 to-sky-500"
+      }
+    ];
+
+    let promoTimer = null;
+    let promoIndex = 0;
+    let promoTouchStartX = 0;
+    let promoTouchEndX = 0;
+    let inquiryRefreshTimer = null;
+    let currentInquiryICCID = "";
+
+    function shouldReduceMotion() {
+      return prefersReducedMotionQuery.matches;
+    }
+
+    function switchTab(tab) {
+      const secInquiry = document.getElementById("section-inquiry");
+      const secRedeem = document.getElementById("section-redeem");
+      const btnInquiry = document.getElementById("tab-inquiry");
+      const btnRedeem = document.getElementById("tab-redeem");
+
+      if (tab === "inquiry") {
+        secInquiry.classList.remove("hidden-state");
+        void secInquiry.offsetWidth;
+        secInquiry.classList.add("fade-enter-active");
+        secRedeem.classList.add("hidden-state");
+        secRedeem.classList.remove("fade-enter-active");
+        btnInquiry.className = TAB_ACTIVE_CLASS;
+        btnRedeem.className = TAB_INACTIVE_CLASS;
+
+        if (currentInquiryICCID && !document.getElementById("result-inquiry").classList.contains("hidden-state")) {
+          startInquiryRefresh();
+        }
+      } else {
+        secRedeem.classList.remove("hidden-state");
+        void secRedeem.offsetWidth;
+        secRedeem.classList.add("fade-enter-active");
+        secInquiry.classList.add("hidden-state");
+        secInquiry.classList.remove("fade-enter-active");
+        btnRedeem.className = TAB_ACTIVE_CLASS;
+        btnInquiry.className = TAB_INACTIVE_CLASS;
+        stopInquiryRefresh();
+      }
+    }
+
+    function openSupportModal() {
+      const modal = document.getElementById("support-modal");
+      if (!modal) return;
+      modal.classList.remove("hidden-state");
+      document.body.classList.add("overflow-hidden");
+    }
+
+    function closeSupportModal() {
+      const modal = document.getElementById("support-modal");
+      if (!modal) return;
+      modal.classList.add("hidden-state");
+      document.body.classList.remove("overflow-hidden");
+    }
+
+    function renderPromoCarousel() {
+      const track = document.getElementById("promo-track");
+      const dots = document.getElementById("promo-dots");
+      const wrap = document.getElementById("promo-carousel-wrap");
+      if (!track || !dots || !wrap) return;
+
+      track.innerHTML = promoSlides.map((slide) => {
+        if (slide.type === "image") {
+          return `
+            <article class="min-w-full h-[140px] sm:h-[150px] md:h-[170px] relative">
+              <img src="${slide.image}" alt="${slide.alt}" class="w-full h-full object-cover object-center">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/35 via-black/5 to-transparent"></div>
+              <div class="absolute bottom-3 right-3">
+                <span class="inline-flex items-center px-2.5 py-1 rounded-full bg-white/85 text-gray-800 text-xs font-medium shadow-sm">${slide.cta}</span>
+              </div>
+            </article>
+          `;
+        }
+
+        if (slide.type === "support") {
+          return `
+            <article class="min-w-full h-[140px] sm:h-[150px] md:h-[170px] relative bg-gradient-to-r ${slide.gradient}">
+              <div class="absolute inset-0 bg-black/10"></div>
+              <div class="relative z-10 h-full p-4 sm:p-5 md:p-6 flex items-center justify-between">
+                <div class="text-white pr-3">
+                  <h3 class="text-base sm:text-lg md:text-xl font-bold leading-tight mb-1">${slide.title}</h3>
+                  <p class="text-xs sm:text-sm md:text-[15px] text-white/90 mb-2">${slide.subtitle}</p>
+                  <button type="button" data-open-support="true" class="inline-flex items-center px-3 py-1.5 rounded-full bg-white/20 text-xs sm:text-sm font-medium border border-white/30 hover:bg-white/30 transition-colors">${slide.cta}</button>
+                </div>
+                <div class="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-xl bg-white/20 border border-white/30 flex items-center justify-center text-2xl md:text-3xl shadow-sm">💬</div>
+              </div>
+            </article>
+          `;
+        }
+
+        return `
+          <article class="min-w-full h-[140px] sm:h-[150px] md:h-[170px] relative bg-gradient-to-r ${slide.gradient}">
+            <div class="absolute inset-0 bg-black/10"></div>
+            <div class="relative z-10 h-full p-4 sm:p-5 md:p-6 flex items-center justify-between">
+              <div class="text-white pr-3">
+                <h3 class="text-base sm:text-lg md:text-xl font-bold leading-tight mb-1">${slide.title}</h3>
+                <p class="text-xs sm:text-sm md:text-[15px] text-white/90 mb-2">${slide.subtitle}</p>
+                <span class="inline-flex items-center px-2.5 py-1 rounded-full bg-white/20 text-xs sm:text-sm font-medium border border-white/30">${slide.cta}</span>
+              </div>
+              <div class="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-xl bg-white/20 border border-white/30 flex items-center justify-center text-2xl md:text-3xl shadow-sm">📱</div>
+            </div>
+          </article>
+        `;
+      }).join("");
+
+      dots.innerHTML = promoSlides.map((_, i) => `
+        <button type="button" class="w-7 h-7 rounded-full flex items-center justify-center transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/40" data-promo-dot="${i}" aria-label="切換到第 ${i + 1} 張宣傳海報">
+          <span class="w-2.5 h-2.5 rounded-full block"></span>
+        </button>
+      `).join("");
+
+      dots.querySelectorAll("[data-promo-dot]").forEach((dot) => {
+        dot.addEventListener("click", () => {
+          goToPromoSlide(Number(dot.dataset.promoDot), true);
+        });
+      });
+
+      const prevBtn = document.getElementById("promo-prev");
+      const nextBtn = document.getElementById("promo-next");
+      if (prevBtn) prevBtn.addEventListener("click", () => goToPromoSlide(promoIndex - 1, true));
+      if (nextBtn) nextBtn.addEventListener("click", () => goToPromoSlide(promoIndex + 1, true));
+
+      const viewport = document.getElementById("promo-viewport");
+      if (viewport) {
+        viewport.addEventListener("touchstart", (e) => {
+          promoTouchStartX = e.changedTouches[0].clientX;
+        }, { passive: true });
+
+        viewport.addEventListener("touchend", (e) => {
+          promoTouchEndX = e.changedTouches[0].clientX;
+          const delta = promoTouchEndX - promoTouchStartX;
+          if (Math.abs(delta) < 40) return;
+          if (delta > 0) {
+            goToPromoSlide(promoIndex - 1, true);
+          } else {
+            goToPromoSlide(promoIndex + 1, true);
+          }
+        }, { passive: true });
+      }
+
+      wrap.addEventListener("mouseenter", stopPromoAutoplay);
+      wrap.addEventListener("mouseleave", () => startPromoAutoplay());
+      wrap.addEventListener("focusin", stopPromoAutoplay);
+      wrap.addEventListener("focusout", (e) => {
+        if (wrap.contains(e.relatedTarget)) return;
+        startPromoAutoplay();
+      });
+
+      goToPromoSlide(0, false);
+      startPromoAutoplay();
+    }
+
+    function goToPromoSlide(nextIndex, userInteracted) {
+      const total = promoSlides.length;
+      promoIndex = (nextIndex + total) % total;
+      const track = document.getElementById("promo-track");
+      const dots = document.querySelectorAll("[data-promo-dot]");
+      if (track) {
+        track.style.transform = `translateX(-${promoIndex * 100}%)`;
+      }
+
+      dots.forEach((dot, i) => {
+        const dotInner = dot.querySelector("span");
+        if (i === promoIndex) {
+          if (dotInner) dotInner.className = "w-5 h-2.5 rounded-full block bg-blue-600 shadow-sm";
+          dot.setAttribute("aria-current", "true");
+        } else {
+          if (dotInner) dotInner.className = "w-2.5 h-2.5 rounded-full block bg-white/90 border border-blue-200";
+          dot.removeAttribute("aria-current");
+        }
+      });
+
+      if (userInteracted) {
+        resetPromoAutoplay();
+      }
+    }
+
+    function startPromoAutoplay() {
+      if (shouldReduceMotion()) return;
+      stopPromoAutoplay();
+      promoTimer = setInterval(() => {
+        goToPromoSlide(promoIndex + 1, false);
+      }, CAROUSEL_INTERVAL_MS);
+    }
+
+    function stopPromoAutoplay() {
+      if (promoTimer) clearInterval(promoTimer);
+      promoTimer = null;
+    }
+
+    function resetPromoAutoplay() {
+      startPromoAutoplay();
+    }
+
+    function setButtonLoading(btn, isLoading, loadingText, colorOverride) {
+      const textNode = btn.querySelector(".btn-text");
+      if (!textNode) return;
+
+      if (isLoading) {
+        const topColor = colorOverride ? ` style="border-top-color: ${colorOverride};"` : "";
+        btn.dataset.originalText = textNode.textContent;
+        btn.innerHTML = `<div class="loader"${topColor}></div><span class="btn-text">${loadingText}</span>`;
+        btn.disabled = true;
+      } else {
+        btn.innerHTML = `<span class="btn-text">${btn.dataset.originalText || textNode.textContent}</span>`;
+        btn.disabled = false;
+      }
+    }
+
+    function validateInquiryForm() {
+      const iccid = document.getElementById("iccid");
+      const value = iccid.value.trim();
+      const isValid = /^\d{19,20}$/.test(value);
+
+      if (!value) {
+        iccid.setCustomValidity("請輸入卡號 (ICCID)");
+      } else if (!isValid) {
+        iccid.setCustomValidity("卡號格式錯誤，請輸入 19 或 20 碼數字");
+      } else {
+        iccid.setCustomValidity("");
+      }
+      return iccid.reportValidity();
+    }
+
+    function validateRedeemForm() {
+      const orderId = document.getElementById("order-id");
+      const email = document.getElementById("email");
+      const emailValue = email.value.trim();
+      orderId.setCustomValidity(orderId.value.trim() ? "" : "請輸入訂單編號");
+
+      if (!orderId.reportValidity()) return false;
+
+      if (!emailValue) {
+        email.setCustomValidity("請輸入收件信箱");
+        return email.reportValidity();
+      }
+
+      email.setCustomValidity("");
+      if (email.validity.typeMismatch) {
+        email.setCustomValidity("信箱格式錯誤，請輸入有效的收件信箱");
+        return email.reportValidity();
+      }
+
+      email.setCustomValidity("");
+      return true;
+    }
+
+    function formatDateDisplay(isoString) {
+      const date = new Date(isoString);
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, "0");
+      const d = String(date.getDate()).padStart(2, "0");
+      return `${y}/${m}/${d}`;
+    }
+
+    function getRemainingMeta(isoString) {
+      const now = Date.now();
+      const end = new Date(isoString).getTime();
+      const diff = end - now;
+      if (diff <= 0) {
+        return { label: "已到期", value: "0", unit: "天", text: "已到期", expired: true };
+      }
+
+      const hours = Math.max(1, Math.ceil(diff / 3600000));
+      if (hours < 24) {
+        return { label: "剩餘時間", value: String(hours), unit: "小時", text: `約 ${hours} 小時`, expired: false };
+      }
+
+      const days = Math.max(1, Math.ceil(hours / 24));
+      return { label: "剩餘天數", value: String(days), unit: "天", text: `剩餘 ${days} 天`, expired: false };
+    }
+
+    function getApproxHoursToReset() {
+      const now = new Date();
+      const next = new Date(now);
+      next.setHours(24, 0, 0, 0);
+      const diff = next.getTime() - now.getTime();
+      return Math.max(1, Math.ceil(diff / 3600000));
+    }
+
+    function renderInquirySuccess(iccid) {
+      const plan = INQUIRY_PLAN_MAP[iccid];
+      const resultArea = document.getElementById("result-inquiry");
+      if (!plan || !resultArea) return;
+
+      const remaining = getRemainingMeta(plan.expiryAt);
+      const statusTag = remaining.expired ? "已到期" : "使用中";
+      const validUntil = formatDateDisplay(plan.expiryAt);
+      let detailContent = "";
+
+      if (plan.type === "daily_limit") {
+        const resetHours = getApproxHoursToReset();
+        detailContent = `
+          <p class="text-xs text-blue-100 mb-1">今日剩餘高速流量</p>
+          <div class="flex items-end gap-2 mb-4">
+            <span class="text-2xl font-bold">${plan.todayRemainingGb.toFixed(1)} <span class="text-lg">GB</span></span>
+            <span class="text-blue-200 mb-1">/ ${plan.dailyQuotaGb}GB</span>
+          </div>
+          <div class="grid grid-cols-2 gap-3 text-xs border-t border-white/20 pt-3 mt-2">
+            <div>
+              <p class="text-blue-100">下次重置</p>
+              <p class="font-medium mt-0.5">約 ${resetHours} 小時後重置</p>
+            </div>
+            <div class="text-right">
+              <p class="text-blue-100">有效至</p>
+              <p class="font-medium mt-0.5">${validUntil}</p>
+            </div>
+          </div>
+        `;
+      } else if (plan.type === "daily_unlimited") {
+        const resetHours = getApproxHoursToReset();
+        detailContent = `
+          <div class="bg-white/15 border border-white/20 rounded-lg p-3 text-sm leading-relaxed">
+            每日吃到飽（公平使用），不顯示剩餘流量。
+          </div>
+          <div class="grid grid-cols-2 gap-3 text-xs border-t border-white/20 pt-3 mt-3">
+            <div>
+              <p class="text-blue-100">公平使用重置</p>
+              <p class="font-medium mt-0.5">約 ${resetHours} 小時後重置</p>
+            </div>
+            <div class="text-right">
+              <p class="text-blue-100">有效至</p>
+              <p class="font-medium mt-0.5">${validUntil}</p>
+            </div>
+          </div>
+        `;
+      } else {
+        const percent = Math.min(100, Math.max(0, Math.round((plan.remainingGb / plan.totalGb) * 100)));
+        detailContent = `
+          <div class="flex justify-between items-end mb-2">
+            <p class="text-xs text-blue-100">高速流量剩餘 / 總量</p>
+            <p class="text-sm font-bold">${plan.remainingGb.toFixed(1)}GB <span class="text-blue-200 font-normal">/ ${plan.totalGb}GB</span></p>
+          </div>
+          <div class="w-full bg-black/20 rounded-full h-2.5 mb-3 overflow-hidden">
+            <div class="bg-white h-2.5 rounded-full" style="width: ${percent}%"></div>
+          </div>
+          <div class="grid grid-cols-2 gap-3 text-xs border-t border-white/20 pt-3 mt-1">
+            <p class="text-blue-100">有效至 <span class="font-medium text-white ml-1">${validUntil}</span></p>
+            <p class="text-right text-blue-100">用完後降速至 128kbps</p>
+          </div>
+        `;
+      }
+
+      resultArea.innerHTML = `
+        <div class="bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl p-6 md:p-7 text-white shadow-lg relative overflow-hidden">
+          <div class="absolute -right-6 -top-6 w-24 h-24 bg-white opacity-10 rounded-full blur-xl"></div>
+          <div class="flex justify-between items-start mb-6 relative z-10">
+            <div>
+              <span class="px-2 py-1 bg-white/20 rounded text-xs font-semibold tracking-wider mb-2 inline-block">${statusTag}</span>
+              <h3 class="font-bold text-lg">${plan.planName}</h3>
+            </div>
+            <div class="text-right">
+              <p class="text-sm text-blue-100">${remaining.label}</p>
+              <p class="text-3xl font-extrabold">${remaining.value} <span class="text-base font-normal">${remaining.unit}</span></p>
+            </div>
+          </div>
+          <div class="bg-white/10 rounded-xl p-4 relative z-10 backdrop-blur-sm">
+            ${detailContent}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderInquiryNotFound() {
+      const resultArea = document.getElementById("result-inquiry");
+      if (!resultArea) return;
+
+      resultArea.innerHTML = `
+        <div class="bg-white border border-red-200 rounded-2xl p-5 md:p-6 shadow-sm">
+          <div class="flex items-start gap-3 mb-3">
+            <div class="w-9 h-9 rounded-full bg-red-50 text-red-500 flex items-center justify-center shrink-0">!</div>
+            <div>
+              <h3 class="font-bold text-gray-900">查無資料</h3>
+              <p class="text-sm text-gray-600 mt-1">查無此卡號，請確認輸入是否正確，或聯繫客服。</p>
+            </div>
+          </div>
+          <button type="button" data-open-support="true" class="mt-2 inline-flex items-center justify-center px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium transition-colors">
+            聯繫客服
+          </button>
+        </div>
+      `;
+    }
+
+    function showInquiryResult() {
+      const resultArea = document.getElementById("result-inquiry");
+      if (!resultArea) return;
+      resultArea.classList.remove("hidden-state");
+      void resultArea.offsetWidth;
+      resultArea.classList.add("fade-enter-active");
+    }
+
+    function hideInquiryResult() {
+      const resultArea = document.getElementById("result-inquiry");
+      if (!resultArea) return;
+      resultArea.classList.add("hidden-state");
+      resultArea.classList.remove("fade-enter-active");
+    }
+
+    function startInquiryRefresh() {
+      stopInquiryRefresh();
+      inquiryRefreshTimer = setInterval(() => {
+        if (!currentInquiryICCID || !INQUIRY_PLAN_MAP[currentInquiryICCID]) return;
+        if (document.getElementById("section-inquiry").classList.contains("hidden-state")) return;
+        renderInquirySuccess(currentInquiryICCID);
+      }, 60000);
+    }
+
+    function stopInquiryRefresh() {
+      if (inquiryRefreshTimer) clearInterval(inquiryRefreshTimer);
+      inquiryRefreshTimer = null;
+    }
+
+    function handleInquiry(e) {
+      e.preventDefault();
+      if (!validateInquiryForm()) return;
+
+      const btn = document.getElementById("btn-inquiry");
+      const iccid = document.getElementById("iccid").value.trim();
+
+      setButtonLoading(btn, true, "查詢中...");
+      hideInquiryResult();
+
+      setTimeout(() => {
+        setButtonLoading(btn, false, "");
+
+        if (INQUIRY_PLAN_MAP[iccid]) {
+          currentInquiryICCID = iccid;
+          renderInquirySuccess(iccid);
+          startInquiryRefresh();
+        } else {
+          currentInquiryICCID = "";
+          stopInquiryRefresh();
+          renderInquiryNotFound();
+        }
+
+        showInquiryResult();
+      }, 900);
+    }
+
+    function handleRedeem(e) {
+      e.preventDefault();
+      if (!validateRedeemForm()) return;
+
+      const btn = document.getElementById("btn-redeem");
+      const resultArea = document.getElementById("result-redeem");
+      setButtonLoading(btn, true, "處理中...", "#111827");
+      resultArea.classList.add("hidden-state");
+      resultArea.classList.remove("fade-enter-active");
+
+      setTimeout(() => {
+        setButtonLoading(btn, false, "");
+        resultArea.classList.remove("hidden-state");
+        void resultArea.offsetWidth;
+        resultArea.classList.add("fade-enter-active");
+      }, 1000);
+    }
+
+    document.addEventListener("click", (e) => {
+      if (e.target.closest("[data-open-support='true']")) {
+        openSupportModal();
+      }
+      if (e.target.closest("[data-close-support='true']")) {
+        closeSupportModal();
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeSupportModal();
+    });
+
+    if (typeof prefersReducedMotionQuery.addEventListener === "function") {
+      prefersReducedMotionQuery.addEventListener("change", () => {
+        if (shouldReduceMotion()) {
+          stopPromoAutoplay();
+        } else {
+          startPromoAutoplay();
+        }
+      });
+    } else if (typeof prefersReducedMotionQuery.addListener === "function") {
+      prefersReducedMotionQuery.addListener((event) => {
+        if (event.matches) {
+          stopPromoAutoplay();
+        } else {
+          startPromoAutoplay();
+        }
+      });
+    }
+
+    renderPromoCarousel();
+  </script>
+</body>
+</html>
