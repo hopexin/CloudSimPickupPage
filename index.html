@@ -361,6 +361,10 @@
         totalGb: 5,
         remainingGb: 1.2,
         expiryAt: "2026-03-07T23:59:59+08:00"
+      },
+      "8601000000000006": {
+        type: "inactive",
+        planName: "日本 7 天｜尚未啟用"
       }
     };
 
@@ -895,6 +899,21 @@
       const plan = INQUIRY_PLAN_MAP[iccid];
       const resultArea = document.getElementById("result-inquiry");
       if (!plan || !resultArea) return;
+
+      if (plan.type === "inactive") {
+        resultArea.innerHTML = `
+          <div class="bg-white border border-amber-200 rounded-2xl p-5 md:p-6 shadow-sm">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">!</div>
+              <div>
+                <h3 class="font-bold text-gray-900">未激活</h3>
+                <p class="text-sm text-gray-600 mt-1">此卡號尚未啟用。</p>
+              </div>
+            </div>
+          </div>
+        `;
+        return;
+      }
 
       const remaining = getRemainingMeta(plan.expiryAt);
       const statusTag = remaining.expired ? "已到期" : "使用中";
