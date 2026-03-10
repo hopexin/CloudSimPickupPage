@@ -41,31 +41,31 @@
         <h1 class="text-xl md:text-2xl font-bold tracking-wide text-gray-900">雲信漫遊</h1>
       </div>
       <div class="bg-gray-100 p-1 rounded-lg flex text-sm font-medium border border-gray-200/80">
-        <button id="tab-inquiry" class="px-4 sm:px-5 py-2 rounded-md bg-white shadow-sm text-blue-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200" onclick="switchTab('inquiry')">查詢</button>
-        <button id="tab-redeem" class="px-4 sm:px-5 py-2 rounded-md text-gray-600 hover:text-gray-900 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200" onclick="switchTab('redeem')">取卡</button>
+        <button id="tab-inquiry" class="px-4 sm:px-5 py-2 rounded-md text-gray-600 hover:text-gray-900 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200" onclick="switchTab('inquiry')">查詢</button>
+        <button id="tab-redeem" class="px-4 sm:px-5 py-2 rounded-md bg-white shadow-sm text-blue-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200" onclick="switchTab('redeem')">取卡</button>
       </div>
     </header>
 
     <main class="p-4 sm:p-6 md:p-8">
-      <section id="section-inquiry" class="fade-enter fade-enter-active">
-        <section aria-label="最新活動" class="mb-6 md:mb-7">
-          <div id="promo-carousel-wrap" class="relative overflow-visible">
-            <div id="promo-carousel" class="group bg-white border border-gray-100 rounded-2xl shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)] relative">
-              <div id="promo-viewport" class="overflow-hidden rounded-2xl">
-                <div id="promo-track" class="promo-track flex"></div>
-              </div>
-              <div id="promo-dots" class="absolute bottom-2.5 md:bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-10"></div>
+      <section aria-label="最新活動" class="mb-6 md:mb-7">
+        <div id="promo-carousel-wrap" class="relative overflow-visible">
+          <div id="promo-carousel" class="group bg-white border border-gray-100 rounded-2xl shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)] relative">
+            <div id="promo-viewport" class="overflow-hidden rounded-2xl">
+              <div id="promo-track" class="promo-track flex"></div>
             </div>
-
-            <button id="promo-prev" type="button" aria-label="上一張宣傳海報" class="hidden md:flex absolute -left-4 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full bg-white/70 backdrop-blur-md text-gray-700 items-center justify-center border border-white/40 shadow-md opacity-70 hover:opacity-100 hover:bg-white/90 hover:shadow-lg active:scale-95 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/40">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M15 18l-6-6 6-6"></path></svg>
-            </button>
-            <button id="promo-next" type="button" aria-label="下一張宣傳海報" class="hidden md:flex absolute -right-4 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full bg-white/70 backdrop-blur-md text-gray-700 items-center justify-center border border-white/40 shadow-md opacity-70 hover:opacity-100 hover:bg-white/90 hover:shadow-lg active:scale-95 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/40">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 6l6 6-6 6"></path></svg>
-            </button>
+            <div id="promo-dots" class="absolute bottom-2.5 md:bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-10"></div>
           </div>
-        </section>
 
+          <button id="promo-prev" type="button" aria-label="上一張宣傳海報" class="hidden md:flex absolute -left-4 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full bg-white/70 backdrop-blur-md text-gray-700 items-center justify-center border border-white/40 shadow-md opacity-70 hover:opacity-100 hover:bg-white/90 hover:shadow-lg active:scale-95 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/40">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M15 18l-6-6 6-6"></path></svg>
+          </button>
+          <button id="promo-next" type="button" aria-label="下一張宣傳海報" class="hidden md:flex absolute -right-4 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full bg-white/70 backdrop-blur-md text-gray-700 items-center justify-center border border-white/40 shadow-md opacity-70 hover:opacity-100 hover:bg-white/90 hover:shadow-lg active:scale-95 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/40">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 6l6 6-6 6"></path></svg>
+          </button>
+        </div>
+      </section>
+
+      <section id="section-inquiry" class="hidden-state fade-enter">
         <div class="bg-white border border-gray-100 rounded-2xl p-5 md:p-6 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)] mb-6 md:mb-7">
           <h2 class="text-lg md:text-xl font-bold mb-4 flex items-center gap-2">
             <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
@@ -87,7 +87,7 @@
         <div id="result-inquiry" class="hidden-state fade-enter"></div>
       </section>
 
-      <section id="section-redeem" class="hidden-state fade-enter">
+      <section id="section-redeem" class="fade-enter fade-enter-active">
         <div class="bg-white border border-gray-100 rounded-2xl p-5 md:p-6 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)] mb-6 md:mb-7">
           <h2 class="text-lg md:text-xl font-bold mb-4 flex items-center gap-2">
             <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
@@ -149,48 +149,6 @@
           </div>
         </div>
 
-        <div id="support-section" class="mt-4 bg-white border border-gray-100 rounded-2xl p-4 md:p-5 shadow-sm">
-          <div class="flex items-center justify-between mb-3">
-            <h3 class="font-bold text-gray-900">客服支援</h3>
-            <button type="button" data-open-support="true" class="text-xs text-blue-600 hover:text-blue-700 font-medium">聯繫客服</button>
-          </div>
-          <p class="text-xs text-gray-500 mb-4">掃碼加入客服（服務時間 9:00–23:00）</p>
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
-            <article class="h-full min-h-[280px] bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex flex-col">
-              <div class="flex items-center gap-3 mb-3">
-                <div class="w-9 h-9 rounded-lg bg-orange-500 text-white font-bold flex items-center justify-center shrink-0">S</div>
-                <h4 class="text-base font-bold text-gray-900">蝦皮客服</h4>
-              </div>
-              <p class="text-sm text-gray-700 leading-relaxed mb-3">
-                在蝦皮購買的客人，<br>請直接透過蝦皮聊聊聯繫我們
-              </p>
-              <ul class="text-sm text-gray-600 space-y-1.5 mb-4">
-                <li>• 可快速查詢訂單</li>
-                <li>• 專屬訂單客服</li>
-                <li>• 回覆速度更快</li>
-              </ul>
-              <a href="https://shopee.tw/cloudsim#product_list" target="_blank" rel="noopener" class="mt-auto inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-xl bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-300">
-                立即前往蝦皮聊聊
-              </a>
-            </article>
-
-            <article class="h-full min-h-[280px] bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex flex-col items-center text-center">
-              <h4 class="text-base font-bold text-gray-900 mb-3">LINE 客服</h4>
-              <div class="w-full max-w-[220px] rounded-xl border border-gray-200 bg-white p-2 mb-2">
-                <img src="linecloudsim.jpeg" alt="LINE 客服 QR Code" class="w-full aspect-square object-contain">
-              </div>
-              <p class="text-xs text-gray-500 mt-auto">掃碼加入 LINE 客服</p>
-            </article>
-
-            <article class="h-full min-h-[280px] bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex flex-col items-center text-center">
-              <h4 class="text-base font-bold text-gray-900 mb-3">微信客服</h4>
-              <div class="w-full max-w-[220px] rounded-xl border border-gray-200 bg-white p-2 mb-2">
-                <img src="weixincloudsim.jpeg" alt="微信客服 QR Code" class="w-full aspect-square object-contain">
-              </div>
-              <p class="text-xs text-gray-500 mt-auto">掃碼加入微信客服</p>
-            </article>
-          </div>
-        </div>
       </section>
 
       <section id="section-tutorial" class="mb-6 md:mb-8">
@@ -240,6 +198,50 @@
         </div>
       </section>
 
+      <section id="support-section" class="mb-6 md:mb-8 scroll-mt-24">
+        <div class="bg-white border border-gray-100 rounded-2xl p-4 md:p-5 shadow-sm">
+          <div class="mb-3">
+            <h3 class="font-bold text-gray-900">客服支援</h3>
+          </div>
+          <p class="text-xs text-gray-500 mb-4">掃碼加入客服（服務時間 9:00–23:00）</p>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+            <article class="h-full min-h-[280px] bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex flex-col">
+              <div class="flex items-center gap-3 mb-3">
+                <div class="w-9 h-9 rounded-lg bg-orange-500 text-white font-bold flex items-center justify-center shrink-0">S</div>
+                <h4 class="text-base font-bold text-gray-900">蝦皮客服</h4>
+              </div>
+              <p class="text-sm text-gray-700 leading-relaxed mb-3">
+                在蝦皮購買的客人，<br>請直接透過蝦皮聊聊聯繫我們
+              </p>
+              <ul class="text-sm text-gray-600 space-y-1.5 mb-4">
+                <li>• 可快速查詢訂單</li>
+                <li>• 專屬訂單客服</li>
+                <li>• 回覆速度更快</li>
+              </ul>
+              <a href="https://shopee.tw/cloudsim#product_list" target="_blank" rel="noopener" class="mt-auto inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-xl bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-300">
+                立即前往蝦皮聊聊
+              </a>
+            </article>
+
+            <article class="h-full min-h-[280px] bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex flex-col items-center text-center">
+              <h4 class="text-base font-bold text-gray-900 mb-3">LINE 客服</h4>
+              <div class="w-full max-w-[220px] rounded-xl border border-gray-200 bg-white p-2 mb-2">
+                <img src="linecloudsim.jpeg" alt="LINE 客服 QR Code" class="w-full aspect-square object-contain">
+              </div>
+              <p class="text-xs text-gray-500 mt-auto">掃碼加入 LINE 客服</p>
+            </article>
+
+            <article class="h-full min-h-[280px] bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex flex-col items-center text-center">
+              <h4 class="text-base font-bold text-gray-900 mb-3">微信客服</h4>
+              <div class="w-full max-w-[220px] rounded-xl border border-gray-200 bg-white p-2 mb-2">
+                <img src="weixincloudsim.jpeg" alt="微信客服 QR Code" class="w-full aspect-square object-contain">
+              </div>
+              <p class="text-xs text-gray-500 mt-auto">掃碼加入微信客服</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
       <section id="section-terms" class="mb-6 md:mb-8">
         <div class="bg-white border border-gray-100 rounded-2xl p-5 md:p-6 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)]">
           <h2 class="text-lg md:text-xl font-bold text-gray-900">使用說明與條款</h2>
@@ -272,39 +274,6 @@
         <p class="text-xs text-gray-400">CloudSim eSIM 服務頁面</p>
       </div>
     </footer>
-  </div>
-
-  <div id="support-modal" class="hidden-state fixed inset-0 z-50 flex items-center justify-center p-4">
-    <div class="absolute inset-0 bg-black/50" data-close-support="true"></div>
-    <div class="relative z-10 w-full max-w-3xl bg-white rounded-2xl shadow-xl border border-gray-100 p-5">
-      <button type="button" data-close-support="true" aria-label="關閉客服視窗" class="absolute right-3 top-3 w-8 h-8 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200">✕</button>
-      <h3 class="text-lg font-bold text-gray-900 mb-1">聯繫客服</h3>
-      <p class="text-sm text-gray-500 mb-4">掃碼加入客服（服務時間 9:00–23:00）</p>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
-        <article class="bg-gray-50 border border-gray-100 rounded-xl p-3 flex flex-col">
-          <div class="flex items-center gap-2 mb-2">
-            <div class="w-8 h-8 rounded-md bg-orange-500 text-white font-bold flex items-center justify-center shrink-0">S</div>
-            <p class="text-sm font-semibold text-gray-800">蝦皮客服</p>
-          </div>
-          <p class="text-xs text-gray-600 leading-relaxed mb-3">蝦皮購買訂單建議優先使用聊聊，查單更快速。</p>
-          <a href="https://shopee.tw/cloudsim#product_list" target="_blank" rel="noopener" class="mt-auto inline-flex items-center justify-center min-h-[40px] px-3 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-300">
-            前往蝦皮聊聊
-          </a>
-        </article>
-        <article class="bg-gray-50 border border-gray-100 rounded-xl p-3 text-center">
-          <p class="text-sm font-semibold text-gray-700 mb-2">LINE</p>
-          <div class="bg-white border border-gray-200 rounded-lg p-2">
-            <img src="linecloudsim.jpeg" alt="LINE 客服 QR Code" class="w-full aspect-square object-contain">
-          </div>
-        </article>
-        <article class="bg-gray-50 border border-gray-100 rounded-xl p-3 text-center">
-          <p class="text-sm font-semibold text-gray-700 mb-2">微信</p>
-          <div class="bg-white border border-gray-200 rounded-lg p-2">
-            <img src="weixincloudsim.jpeg" alt="微信客服 QR Code" class="w-full aspect-square object-contain">
-          </div>
-        </article>
-      </div>
-    </div>
   </div>
 
   <div id="tutorial-lightbox" class="hidden-state fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -378,7 +347,7 @@
       {
         type: "support",
         title: "客服支援",
-        subtitle: "蝦皮 / LINE / 微信客服與常見問題",
+        subtitle: "蝦皮 / LINE / 微信客服聯繫方式",
         cta: "聯繫客服",
         gradient: "from-emerald-600 via-teal-500 to-cyan-500"
       }
@@ -430,6 +399,7 @@
     function switchTab(tab) {
       const secInquiry = document.getElementById("section-inquiry");
       const secRedeem = document.getElementById("section-redeem");
+      const secTutorial = document.getElementById("section-tutorial");
       const btnInquiry = document.getElementById("tab-inquiry");
       const btnRedeem = document.getElementById("tab-redeem");
 
@@ -439,6 +409,7 @@
         secInquiry.classList.add("fade-enter-active");
         secRedeem.classList.add("hidden-state");
         secRedeem.classList.remove("fade-enter-active");
+        if (secTutorial) secTutorial.classList.add("hidden-state");
         btnInquiry.className = TAB_ACTIVE_CLASS;
         btnRedeem.className = TAB_INACTIVE_CLASS;
 
@@ -451,6 +422,7 @@
         secRedeem.classList.add("fade-enter-active");
         secInquiry.classList.add("hidden-state");
         secInquiry.classList.remove("fade-enter-active");
+        if (secTutorial) secTutorial.classList.remove("hidden-state");
         btnRedeem.className = TAB_ACTIVE_CLASS;
         btnInquiry.className = TAB_INACTIVE_CLASS;
         stopInquiryRefresh();
@@ -458,27 +430,24 @@
     }
 
     function syncBodyScrollLock() {
-      const supportOpen = !document.getElementById("support-modal").classList.contains("hidden-state");
       const tutorialOpen = !document.getElementById("tutorial-lightbox").classList.contains("hidden-state");
-      if (supportOpen || tutorialOpen) {
+      if (tutorialOpen) {
         document.body.classList.add("overflow-hidden");
       } else {
         document.body.classList.remove("overflow-hidden");
       }
     }
 
-    function openSupportModal() {
-      const modal = document.getElementById("support-modal");
-      if (!modal) return;
-      modal.classList.remove("hidden-state");
-      syncBodyScrollLock();
-    }
-
-    function closeSupportModal() {
-      const modal = document.getElementById("support-modal");
-      if (!modal) return;
-      modal.classList.add("hidden-state");
-      syncBodyScrollLock();
+    function scrollToSupportSection() {
+      const section = document.getElementById("support-section");
+      if (!section) return;
+      const header = document.querySelector("header");
+      const headerOffset = header ? header.offsetHeight + 16 : 16;
+      const top = section.getBoundingClientRect().top + window.scrollY - headerOffset;
+      window.scrollTo({
+        top,
+        behavior: shouldReduceMotion() ? "auto" : "smooth"
+      });
     }
 
     function openTutorialLightbox(src, alt) {
@@ -627,7 +596,7 @@
         if (slide.type === "image") {
           return `
             <article class="min-w-full relative aspect-[3/1] bg-slate-50">
-              <a href="${SHOPEE_URL}" target="_blank" rel="noopener" data-shopee-promo="true" class="block w-full h-full cursor-pointer transition-all hover:brightness-[1.02]">
+              <a href="${SHOPEE_URL}" target="_blank" rel="noopener" data-promo-link="true" class="block w-full h-full cursor-pointer transition-all hover:brightness-[1.02]">
                 <img src="${slide.image}" alt="${slide.alt}" class="w-full h-full object-contain object-center">
               </a>
             </article>
@@ -637,15 +606,17 @@
         if (slide.type === "support") {
           return `
             <article class="min-w-full relative aspect-[3/1] bg-gradient-to-r ${slide.gradient}">
-              <div class="absolute inset-0 bg-black/10"></div>
-              <div class="relative z-10 h-full p-4 sm:p-5 md:p-6 flex items-center justify-between">
-                <div class="text-white pr-3">
-                  <h3 class="text-base sm:text-lg md:text-xl font-bold leading-tight mb-1">${slide.title}</h3>
-                  <p class="text-xs sm:text-sm md:text-[15px] text-white/90 mb-2">${slide.subtitle}</p>
-                  <button type="button" data-open-support="true" class="inline-flex items-center px-3 py-1.5 rounded-full bg-white/20 text-xs sm:text-sm font-medium border border-white/30 hover:bg-white/30 transition-colors">${slide.cta}</button>
+              <button type="button" data-open-support="true" data-promo-link="true" class="group absolute inset-0 block w-full h-full text-left cursor-pointer">
+                <div class="absolute inset-0 bg-black/10 transition-opacity group-hover:bg-black/5"></div>
+                <div class="relative z-10 h-full p-4 sm:p-5 md:p-6 flex items-center justify-between">
+                  <div class="text-white pr-3">
+                    <h3 class="text-base sm:text-lg md:text-xl font-bold leading-tight mb-1">${slide.title}</h3>
+                    <p class="text-xs sm:text-sm md:text-[15px] text-white/90 mb-2">${slide.subtitle}</p>
+                    <span class="inline-flex items-center px-3 py-1.5 rounded-full bg-white/20 text-xs sm:text-sm font-medium border border-white/30 transition-colors group-hover:bg-white/30">${slide.cta}</span>
+                  </div>
+                  <div class="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-xl bg-white/20 border border-white/30 flex items-center justify-center text-2xl md:text-3xl shadow-sm transition-transform group-hover:scale-[1.03]">💬</div>
                 </div>
-                <div class="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-xl bg-white/20 border border-white/30 flex items-center justify-center text-2xl md:text-3xl shadow-sm">💬</div>
-              </div>
+              </button>
             </article>
           `;
         }
@@ -1102,9 +1073,10 @@
     }
 
     document.addEventListener("click", (e) => {
-      const shopeePoster = e.target.closest("[data-shopee-promo='true']");
-      if (shopeePoster && Date.now() < promoSuppressClickUntil) {
+      const promoLink = e.target.closest("[data-promo-link='true']");
+      if (promoLink && Date.now() < promoSuppressClickUntil) {
         e.preventDefault();
+        return;
       }
 
       const previewTrigger = e.target.closest("[data-preview-src]");
@@ -1112,10 +1084,7 @@
         openTutorialLightbox(previewTrigger.dataset.previewSrc, previewTrigger.dataset.previewAlt);
       }
       if (e.target.closest("[data-open-support='true']")) {
-        openSupportModal();
-      }
-      if (e.target.closest("[data-close-support='true']")) {
-        closeSupportModal();
+        scrollToSupportSection();
       }
       if (e.target.closest("[data-close-tutorial='true']")) {
         closeTutorialLightbox();
@@ -1124,7 +1093,6 @@
 
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
-        closeSupportModal();
         closeTutorialLightbox();
       }
     });
@@ -1149,6 +1117,7 @@
 
     initializeRedeemFormState();
     renderPromoCarousel();
+    switchTab("redeem");
   </script>
 </body>
 </html>
